@@ -121,21 +121,19 @@ namespace AddressBookDay23
                         {
                             case 1:
                                 Console.WriteLine("Enter City : ");
-                                add.SearchPersonByCity(Console.ReadLine())
-                                    break;
+                                add.SearchPersonByCity(Console.ReadLine());
+                                break;
                             case 2:
                                 Console.WriteLine("Enter State : ");
-                                add.SearchPersonByState(Console.ReadLine())
-                                    break;
+                                add.SearchPersonByState(Console.ReadLine());
+                                break;
                             default:
                                 Console.WriteLine("Invalid Input");
                                 break;
                         }
+                        break;
                 }
-            } while (choice != 8);
-            
-           
-        }
-        
+            } while (choice != 8);           
+        }        
     }
 }

@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -8,44 +9,29 @@ using System.Xml.Linq;
 
 namespace AddressBookDay23
 {
-    public class AddressBook:IContact
+    public class AddressBook : IContact
     {
-        
-       public Dictionary<string,Contact> addressBook = new Dictionary<string,Contact>();
-       public Dictionary<string,AddressBook> addressBookDictionary = new Dictionary<string,AddressBook>();
 
-       public Dictionary<Contact,string> cityDictionary = new Dictionary<Contact, string>();
-       public Dictionary<Contact,string> stateDictionary = new Dictionary<Contact, string>();
-        
+        public Dictionary<string, Contact> addressBook = new Dictionary<string, Contact>();
+        public Dictionary<string, AddressBook> addressBookDictionary = new Dictionary<string, AddressBook>();
+
+        public Dictionary<Contact, string> cityDictionary = new Dictionary<Contact, string>();
+        public Dictionary<Contact, string> stateDictionary = new Dictionary<Contact, string>();
+
         public void CreateContact(string firstName, string lastName, string address, string city, string state, string email, int zip, long phoneNum, string BookName)
         {
-           Contact contact = new Contact(firstName,lastName,address,city,state,email,zip,phoneNum);
-            
+            Contact contact = new Contact(firstName, lastName, address, city, state, email, zip, phoneNum);
+
             addressBookDictionary[BookName].addressBook.Add(contact.FirstName, contact);
-            Console.WriteLine("Added Succesfully");     
+            Console.WriteLine("Added Succesfully");
 
         }
-        public void ViewContact (string name, string BookName)
+        public void ViewContact(string name, string BookName)
         {
-            foreach(KeyValuePair<string,Contact> item in addressBookDictionary[BookName].addressBook)
+            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[BookName].addressBook)
             {
                 if (item.Key.ToLower().Equals(name.ToLower()))
                 {
-                    Console.WriteLine("FirstName;"+item.Value.FirstName);
-                    Console.WriteLine("LastName;"+item.Value.LasTName);
-                    Console.WriteLine("Address;"+item.Value.Address);
-                    Console.WriteLine("City;"+item.Value.City);
-                    Console.WriteLine("State;"+item.Value.State);
-                    Console.WriteLine("Zip;"+item.Value.Zip);
-                    Console.WriteLine("Email;"+item.Value.Email);
-                    Console.WriteLine("PhoneNum;"+item.Value.PhoneNum);
-                }
-            }
-        }
-        public void ViewContact(string BookName)
-        {
-            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[BookName].addressBook)
-            {                
                     Console.WriteLine("FirstName;" + item.Value.FirstName);
                     Console.WriteLine("LastName;" + item.Value.LasTName);
                     Console.WriteLine("Address;" + item.Value.Address);
@@ -54,11 +40,26 @@ namespace AddressBookDay23
                     Console.WriteLine("Zip;" + item.Value.Zip);
                     Console.WriteLine("Email;" + item.Value.Email);
                     Console.WriteLine("PhoneNum;" + item.Value.PhoneNum);
-                
+                }
+            }
+        }
+        public void ViewContact(string BookName)
+        {
+            foreach (KeyValuePair<string, Contact> item in addressBookDictionary[BookName].addressBook)
+            {
+                Console.WriteLine("FirstName;" + item.Value.FirstName);
+                Console.WriteLine("LastName;" + item.Value.LasTName);
+                Console.WriteLine("Address;" + item.Value.Address);
+                Console.WriteLine("City;" + item.Value.City);
+                Console.WriteLine("State;" + item.Value.State);
+                Console.WriteLine("Zip;" + item.Value.Zip);
+                Console.WriteLine("Email;" + item.Value.Email);
+                Console.WriteLine("PhoneNum;" + item.Value.PhoneNum);
+
             }
 
         }
-        public void EditContact(string name,string bookName)
+        public void EditContact(string name, string bookName)
         {
             foreach (KeyValuePair<string, Contact> item in addressBookDictionary[bookName].addressBook)
             {
@@ -135,22 +136,22 @@ namespace AddressBookDay23
             addressBookDictionary.Add(BookName, book);
             Console.WriteLine("AddressBook Created");
         }
-        public Dictionary<string,AddressBook> GetaddressBook()
+        public Dictionary<string, AddressBook> GetaddressBook()
         {
             return addressBookDictionary;
         }
         public List<Contact> GetListOfDictionaryKeys(string bookName)
         {
             List<Contact> contacts = new List<Contact>();
-            foreach(var value in addressBookDictionary[bookName].addressBook.Values)
+            foreach (var value in addressBookDictionary[bookName].addressBook.Values)
             {
                 contacts.Add(value);
             }
             return contacts;
         }
-        public bool CheckDuplicateEntry(Contact check,string bookName)
+        public bool CheckDuplicateEntry(Contact check, string bookName)
         {
-            List<Contact> contacts=GetListOfDictionaryKeys(bookName);
+            List<Contact> contacts = GetListOfDictionaryKeys(bookName);
             if (contacts.Any(b => b.Equals(check)))
             {
                 Console.WriteLine("Name Already Exist");
@@ -160,11 +161,11 @@ namespace AddressBookDay23
         }
         public void SearchPersonByCity(string city)
         {
-            foreach(AddressBook addressbookobj in addressBookDictionary.Values)
+            foreach (AddressBook addressbookObj in addressBookDictionary.Values)
             {
                 CreateCityDictionary();
-                List<Contact> contactList = GetListOfDictionaryKeys(addressbookobj.cityDictionary);
-                foreach(Contact contact in contactList.FindAll(c => c.City.Equals(city)).ToList())
+                List<Contact> contactList = GetListOfDictionaryKeys(addressbookObj.cityDictionary);
+                foreach (Contact contact in contactList.FindAll(c => c.City.Equals(city)).ToList())
                 {
                     Console.WriteLine(contact.ToString);
                 }
@@ -172,11 +173,11 @@ namespace AddressBookDay23
         }
         public void CreateCityDictionary()
         {
-            foreach(AddressBook addressbookobj in addressBookDictionary.Values)
+            foreach (AddressBook addressbookObj in addressBookDictionary.Values)
             {
-                foreach(Contact contact in addressbookobj.addressBook.Values)
+                foreach (Contact contact in addressbookObj.addressBook.Values)
                 {
-                    addressbookobj.cityDictionary.Add(contact, contact.City);
+                    addressbookObj.cityDictionary.Add(contact, contact.City);
                 }
             }
         }
@@ -186,7 +187,7 @@ namespace AddressBookDay23
             {
                 CreateCityDictionary();
                 List<Contact> contactList = GetListOfDictionaryKeys(addressbookobj.stateDictionary);
-                foreach (Contact contact in contactList.FindAll(c => c.City.Equals(city)).ToList())
+                foreach (Contact contact in contactList.FindAll(c => c.State.Equals(state)).ToList())
                 {
                     Console.WriteLine(contact.ToString);
                 }
@@ -202,6 +203,15 @@ namespace AddressBookDay23
                 }
             }
         }
+        public List<Contact> GetListOfDictionaryKeys(Dictionary<Contact,String> contact)
+        {
+            List<Contact> contactList = new List<Contact>();
+            foreach(var contactKey in contact.Keys)
+            {
+                contactList.Add(contactKey);
+            }
+            return contactList;
+        }  
 
 
 
